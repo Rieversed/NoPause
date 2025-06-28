@@ -7,8 +7,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class NoPauseHud {
-    private static final Identifier ICON_ENABLED = Identifier.of("nopause", "textures/enabled.png");
-    private static final Identifier ICON_DISABLED = Identifier.of("nopause", "textures/disabled.png");
+    private static final Identifier ICON_ENABLED = new Identifier("nopause", "textures/enabled.png");
+    private static final Identifier ICON_DISABLED = new Identifier("nopause", "textures/disabled.png");
 
     public static void render(DrawContext context) {
         // The animation's lifecycle is now controlled by NoPauseClient and the NoPause state
