@@ -2,12 +2,11 @@ name: Build and Release
 
 on:
   push:
-  pull_request:
-  # Also run a *release build* only when a version tag is pushed
-  # (Tags should be like: v4.2.3)
-  push:
+    branches:
+      - "**"
     tags:
-      - 'v*'
+      - "v*"
+  pull_request:
 
 jobs:
   # -------------------------------
