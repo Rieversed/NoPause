@@ -72,12 +72,6 @@ jobs:
       - name: Build
         run: ./gradlew build
 
-      - name: Find normal jar file
-        id: find_jar
-        run: |
-          JAR_FILE=$(ls build/libs/*.jar | grep -v sources | head -n 1)
-          echo "jar=$JAR_FILE" >> $GITHUB_OUTPUT
-
       - name: Upload to Modrinth
         uses: RubixDev/modrinth-upload@v1
         with:
@@ -86,7 +80,7 @@ jobs:
           name: ${{ github.ref_name }}
           version: ${{ github.ref_name }}
           changelog: "Automated build from GitHub Actions."
-          file_path: build/libs/*.jar
+          file_path: build/libs/nopause-1.20.1-1.20.6_4.3.3.jar
           game_versions: |
             1.20.1
             1.20.2
