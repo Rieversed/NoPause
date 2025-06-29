@@ -98,38 +98,36 @@ public class NoPause implements ModInitializer {
 							return 1;
 						})
 					)
-					.then(ClientCommandManager.literal("notifications")
-						.then(ClientCommandManager.literal("chat")
-							.then(ClientCommandManager.literal("on")
-								.executes(context -> {
-									setShowChatMessages(true);
-									context.getSource().sendFeedback(Text.literal("§7[§bNoPause§7] §fChat notifications enabled."));
-									return 1;
-								})
-							)
-							.then(ClientCommandManager.literal("off")
-								.executes(context -> {
-									setShowChatMessages(false);
-									context.getSource().sendFeedback(Text.literal("§7[§bNoPause§7] §fChat notifications disabled."));
-									return 1;
-								})
-							)
+					.then(ClientCommandManager.literal("chat")
+						.then(ClientCommandManager.literal("on")
+							.executes(context -> {
+								setShowChatMessages(true);
+								context.getSource().sendFeedback(Text.literal("§7[§bNoPause§7] §fChat notifications enabled."));
+								return 1;
+							})
 						)
-						.then(ClientCommandManager.literal("visual")
-							.then(ClientCommandManager.literal("on")
-								.executes(context -> {
-									setShowHudIndicator(true);
-									context.getSource().sendFeedback(Text.literal("§7[§bNoPause§7] §fHUD visual enabled."));
-									return 1;
-								})
-							)
-							.then(ClientCommandManager.literal("off")
-								.executes(context -> {
-									setShowHudIndicator(false);
-									context.getSource().sendFeedback(Text.literal("§7[§bNoPause§7] §fHUD visual disabled."));
-									return 1;
-								})
-							)
+						.then(ClientCommandManager.literal("off")
+							.executes(context -> {
+								setShowChatMessages(false);
+								context.getSource().sendFeedback(Text.literal("§7[§bNoPause§7] §fChat notifications disabled."));
+								return 1;
+							})
+						)
+					)
+					.then(ClientCommandManager.literal("visual")
+						.then(ClientCommandManager.literal("on")
+							.executes(context -> {
+								setShowHudIndicator(true);
+								context.getSource().sendFeedback(Text.literal("§7[§bNoPause§7] §fHUD visual enabled."));
+								return 1;
+							})
+						)
+						.then(ClientCommandManager.literal("off")
+							.executes(context -> {
+								setShowHudIndicator(false);
+								context.getSource().sendFeedback(Text.literal("§7[§bNoPause§7] §fHUD visual disabled."));
+								return 1;
+							})
 						)
 					)
 			);
