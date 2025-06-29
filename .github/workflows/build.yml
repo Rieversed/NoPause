@@ -37,6 +37,9 @@ jobs:
       - name: Build
         run: ./gradlew build
 
+      - name: List build output
+        run: ls -R build/
+
       - name: Capture build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -87,3 +90,4 @@ jobs:
             1.20.6
           loaders: |
             fabric
+          featured: false
