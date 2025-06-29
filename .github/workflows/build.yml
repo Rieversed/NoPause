@@ -73,12 +73,11 @@ jobs:
         uses: RubixDev/modrinth-upload@v1
         with:
           token: ${{ secrets.MODRINTH_TOKEN }}
-          project_id: "nopause"          # <<< CHANGE THIS
-          version_name: ${{ github.ref_name }}
-          version_number: ${{ github.ref_name }}
+          project_id: "nopause"
+          name: ${{ github.ref_name }}
+          version: ${{ github.ref_name }}
           changelog: "Automated build from GitHub Actions."
-          files: |
-            build/libs/*.jar
+          file_path: build/libs/*.jar
           game_versions: |
             1.20.1
             1.20.2
