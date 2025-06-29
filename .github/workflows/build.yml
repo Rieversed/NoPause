@@ -72,6 +72,12 @@ jobs:
       - name: Build
         run: ./gradlew build
 
+      - name: Find normal jar file
+        id: find_jar
+        run: |
+          JAR_FILE=$(ls build/libs/*.jar | grep -v sources | head -n 1)
+          echo "jar=$JAR_FILE" >> $GITHUB_OUTPUT
+
       - name: Upload to Modrinth
         uses: RubixDev/modrinth-upload@v1
         with:
