@@ -1,11 +1,14 @@
 name: "Build and Publish"
+
 on:
   push:
     tags:
       - "v*"
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
 
@@ -25,12 +28,23 @@ jobs:
           output="$(find build/libs/ ! -name "*-dev.jar" ! -name "*-sources.jar" -type f -printf "%f\n")"
           echo "jarname=$output" >> $GITHUB_OUTPUT
 
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
       - name: Upload to the GitHub release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: build/libs/${{ steps.findjar.outputs.jarname }}
           asset_name: ${{ steps.findjar.outputs.jarname }}
           asset_content_type: application/java-archive
@@ -38,11 +52,11 @@ jobs:
       - name: Upload to Modrinth
         uses: RubixDev/modrinth-upload@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.MODRINTH_TOKEN }}
           file_path: build/libs/${{ steps.findjar.outputs.jarname }}
-          name: ${{ github.event.release.tag_name }}
-          version: ${{ github.event.release.tag_name }}
-          changelog: ${{ github.event.release.body }}
+          name: ${{ github.ref_name }}
+          version: ${{ github.ref_name }}
+          changelog: ""
           relations: P7dR8mSH:required
           game_versions: 1.20.1,1.20.2,1.20.3,1.20.4,1.20.5,1.20.6
           release_type: release
