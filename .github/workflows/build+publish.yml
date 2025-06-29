@@ -29,8 +29,8 @@ jobs:
         id: findjar
         run: |
           output="$(find build/libs/ ! -name "*-dev.jar" ! -name "*-sources.jar" -type f -printf "%f\n")"
-          echo "jarname=$output" >> $GITHUB_OUTPUT
-
+          echo "jarname=$output" >> "$GITHUB_OUTPUT"
+          
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
