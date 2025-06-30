@@ -31,8 +31,8 @@ jobs:
           output="$(find build/libs/ ! -name "*-dev.jar" ! -name "*-sources.jar" -type f -printf "%f\n")"
           echo "jarname=$output" >> "$GITHUB_OUTPUT"
 
-      - name: Install GitHub CLI
-        uses: cli/cli-action@v2
+      - name: Check gh CLI version
+        run: gh --version
 
       - name: Create or Update Release
         run: |
