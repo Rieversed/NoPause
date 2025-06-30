@@ -18,8 +18,10 @@ echo 3. Pull latest changes
 echo 4. Add, commit, and push
 echo 5. Create new branch
 echo 6. Exit
+echo 7. Create tag (release)
+echo 8. Delete tag (release)
 echo.
-set /p choice=Enter your choice (1-6): 
+set /p choice=Enter your choice (1-8): 
 
 if "%choice%"=="1" goto list
 if "%choice%"=="2" goto switch
@@ -27,6 +29,8 @@ if "%choice%"=="3" goto pull
 if "%choice%"=="4" goto commitpush
 if "%choice%"=="5" goto create
 if "%choice%"=="6" exit
+if "%choice%"=="7" goto createtag
+if "%choice%"=="8" goto deletetag
 goto menu
 
 :list
@@ -79,5 +83,29 @@ echo ========================================
 set /p newbranch=Enter new branch name: 
 git checkout -b %newbranch%
 git push -u origin %newbranch%
+pause
+goto menu
+
+:createtag
+cls
+echo ========================================
+echo          Create Tag (Release)
+echo ========================================
+set /p tagname=Enter tag name: 
+git tag %tagname%
+git push origin %tagname%
+pause
+goto menu
+
+:deletetag
+cls
+echo ========================================
+echo          Delete Tag (Release)
+echo ========================================
+git tag
+echo.
+set /p deltag=Enter tag name to delete: 
+git tag -d %deltag%
+git push origin :refs/tags/%deltag%
 pause
 goto menu
