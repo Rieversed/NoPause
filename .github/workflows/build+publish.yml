@@ -30,27 +30,27 @@ jobs:
         run: |
           output="$(find build/libs/ ! -name "*-dev.jar" ! -name "*-sources.jar" -type f -printf "%f\n")"
           echo "jarname=$output" >> "$GITHUB_OUTPUT"
-          
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
+
+      - name: Install GitHub CLI
+        uses: cli/cli-action@v2
+
+      - name: Create or Update Release
+        run: |
+          if gh release view "${{ github.ref_name }}" >/dev/null 2>&1; then
+            echo "Release exists, updating title and notes..."
+            gh release edit "${{ github.ref_name }}" --title "Release ${{ github.ref_name }}" --notes "Automated release"
+          else
+            echo "Release does not exist, creating..."
+            gh release create "${{ github.ref_name }}" --title "Release ${{ github.ref_name }}" --notes "Automated release"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
-          draft: false
-          prerelease: false
 
       - name: Upload to the GitHub release
-        uses: actions/upload-release-asset@v1
+        run: |
+          gh release upload "${{ github.ref_name }}" "build/libs/${{ steps.findjar.outputs.jarname }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/libs/${{ steps.findjar.outputs.jarname }}
-          asset_name: ${{ steps.findjar.outputs.jarname }}
-          asset_content_type: application/java-archive
 
       - name: Upload to Modrinth
         uses: RubixDev/modrinth-upload@v1
