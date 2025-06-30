@@ -11,7 +11,11 @@ base {
 }
 
 repositories {
-	// If you depend on other mods hosted elsewhere, add their Maven repos here
+    maven {
+        name = "Fabric"
+        url = "https://maven.fabricmc.net/"
+    }
+    mavenCentral()
 }
 
 fabricApi {
