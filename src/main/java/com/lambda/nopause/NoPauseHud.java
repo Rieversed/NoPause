@@ -2,7 +2,9 @@ package com.lambda.nopause;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -10,7 +12,7 @@ public class NoPauseHud {
     private static final Identifier ICON_ENABLED = new Identifier("nopause", "textures/enabled.png");
     private static final Identifier ICON_DISABLED = new Identifier("nopause", "textures/disabled.png");
 
-    public static void render(DrawContext context) {
+    public static void render(MatrixStack matrixStack) {
         // The animation's lifecycle is now controlled by NoPauseClient and the NoPause state
         if (!NoPause.shouldShowHudIndicator() || !NoPause.isHudAnimationActive()) {
             return;
@@ -45,8 +47,12 @@ public class NoPauseHud {
 
         // Set color with alpha for the icon and text
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
-        context.drawTexture(icon, x, y, 0, 0, 16, 16, 16, 16);
-        context.drawText(client.textRenderer, Text.literal(statusText), x + 20, y + 4, textColor, true);
+
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, icon);
+        Screen.drawTexture(matrixStack, x, y, 0f, 0f, 16, 16, 16, 16);
+
+        client.textRenderer.drawWithShadow(matrixStack, Text.literal(statusText), x + 20, y + 4, textColor);
 
         // Reset shader color and disable blend
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);

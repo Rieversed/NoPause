@@ -21,8 +21,8 @@ public class NoPauseClient implements ClientModInitializer {
         });
 
         // Register the HUD renderer
-        HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
-            NoPauseHud.render(drawContext);
+        HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
+            NoPauseHud.render(matrixStack);
         });
     }
 }
