@@ -57,7 +57,7 @@ jobs:
         with:
           token: ${{ secrets.MODRINTH_TOKEN }}
           file_path: build/libs/${{ steps.findjar.outputs.jarname }}
-          name: ${{ github.ref_name }}
+          name: No Pause${{ github.ref_name }}
           version: ${{ github.ref_name }}
           changelog: "Automated release"
           relations: P7dR8mSH:required
