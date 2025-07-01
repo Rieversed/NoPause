@@ -57,11 +57,11 @@ jobs:
         with:
           token: ${{ secrets.MODRINTH_TOKEN }}
           file_path: build/libs/${{ steps.findjar.outputs.jarname }}
-          name: (mc 1.20.1-1.20.6) No Pause ${{ github.ref_name }}
+          name: (mc 1.19-1.19.2) No Pause ${{ github.ref_name }}
           version: ${{ github.ref_name }}
           changelog: "Automated release"
           relations: P7dR8mSH:required
-          game_versions: 1.20.1,1.20.2,1.20.3,1.20.4,1.20.5,1.20.6
+          game_versions: 1.19,1.19.1,1.19.2
           release_type: release
           loaders: fabric
           featured: false
